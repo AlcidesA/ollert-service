@@ -1,4 +1,3 @@
-import { User } from '@models/User'
 import { UserRepository } from 'src/repositories/UserRepository'
 import { getConnection } from 'typeorm'
 
@@ -27,8 +26,10 @@ export class UsersController {
       const user = await userRepository.create(req.body)
       await userRepository.save(user)
 
-      res.status(201).send()
+      res.sendStatus(201)
     } catch (error) {
+      console.log(error)
+
       return res.status(400).send({ error: 'Create failed' })
     }
   }

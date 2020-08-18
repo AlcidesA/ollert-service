@@ -4,12 +4,14 @@ import bodyParser from 'body-parser'
 import { createConnection } from 'typeorm'
 import '@controllers/UsersController'
 import userRouter from './routes/user'
+import authRouter from './routes/auth'
 
 createConnection().then(_ => {
   const app = express()
   app.use(bodyParser.json())
 
   app.use('/', userRouter)
+  app.use('/', authRouter)
 
   app.listen(3333)
 
