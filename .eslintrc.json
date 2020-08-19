@@ -16,5 +16,6 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "no-unused-vars": "off" // https://github.com/typescript-eslint/typescript-eslint/issues/1856
     }
 }

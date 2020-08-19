@@ -2,9 +2,10 @@ import { UserRepository } from 'src/repositories/UserRepository'
 import { getConnection } from 'typeorm'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { Request, Response } from 'express'
 
 export class AuthController {
-  static async authenticate (req, res) {
+  static async authenticate (req: Request, res: Response) {
     try {
       const userRepository = getConnection().getCustomRepository(UserRepository)
       const { email, password } = req.body

@@ -1,8 +1,9 @@
 import { UserRepository } from 'src/repositories/UserRepository'
 import { getConnection } from 'typeorm'
+import { Request, Response } from 'express'
 
 export class UsersController {
-  static async list (_, res) {
+  static async list (_, res: Response) {
     try {
       const userRepository = getConnection().getCustomRepository(UserRepository)
       const users = await userRepository.find()
@@ -13,7 +14,7 @@ export class UsersController {
     }
   }
 
-  static async create (req, res) {
+  static async create (req: Request, res: Response) {
     try {
       const userRepository = getConnection().getCustomRepository(UserRepository)
 
