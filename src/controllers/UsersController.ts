@@ -3,17 +3,6 @@ import { getConnection } from 'typeorm'
 import { Request, Response } from 'express'
 
 export class UsersController {
-  static async list (_, res: Response) {
-    try {
-      const userRepository = getConnection().getCustomRepository(UserRepository)
-      const users = await userRepository.find()
-
-      return res.status(200).send(users)
-    } catch (error) {
-      return res.status(400).send({ error: 'List failed' })
-    }
-  }
-
   static async create (req: Request, res: Response) {
     try {
       const userRepository = getConnection().getCustomRepository(UserRepository)
