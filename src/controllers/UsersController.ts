@@ -53,4 +53,19 @@ export class UsersController {
       return res.status(400).send({ error: 'Add board failed' })
     }
   }
+
+  static async listBoards (req: Request, res: Response) {
+    try {
+      const userRepository = getConnection().getCustomRepository(UserRepository)
+      const userId = req.params?.id
+
+      const user = await userRepository.getUserWithBoards(userId)
+
+      return res.status(200).send(user.boards)
+    } catch (error) {
+      console.log(error)
+
+      return res.status(500).send({ error: 'Error getting boards' })
+    }
+  }
 }
