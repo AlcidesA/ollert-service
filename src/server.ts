@@ -6,6 +6,7 @@ import { createConnection } from 'typeorm'
 import '@controllers/UsersController'
 import userRouter from './routes/user'
 import authRouter from './routes/auth'
+import boardRouter from './routes/board'
 
 createConnection().then(_ => {
   const app = express()
@@ -13,8 +14,9 @@ createConnection().then(_ => {
   app.use(cors())
   app.use(bodyParser.json())
 
-  app.use('/', userRouter)
   app.use('/', authRouter)
+  app.use('/', userRouter)
+  app.use('/', boardRouter)
 
   app.listen(3333)
 
