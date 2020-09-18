@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { BaseEntity, Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { List } from './List'
 import { User } from './User'
 
 @Entity()
@@ -11,4 +12,7 @@ export class Board extends BaseEntity {
 
   @ManyToMany(type => User, user => user.boards)
   users: User[]
+
+  @OneToMany(type => List, list => list.board, { cascade: true })
+  lists: List[]
 }
