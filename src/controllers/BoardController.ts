@@ -30,6 +30,19 @@ export class BoardController {
     }
   }
 
+  static async get (req: Request, res: Response) {
+    try {
+      const boardId = req.params?.id
+      const repository = getConnection().getCustomRepository(BoardRepository)
+
+      const board = await repository.getBoardWithLists(boardId)
+
+      return res.status(200).send({ board })
+    } catch (error) {
+      return res.status(500).send({ error: 'Error getting  list' })
+    }
+  }
+
   static async remove (req: Request, res: Response) {
     try {
       const repository = getConnection().getRepository(Board)
