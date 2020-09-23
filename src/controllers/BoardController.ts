@@ -59,8 +59,6 @@ export class BoardController {
     try {
       const connection = getConnection()
 
-      console.log('-------------------------------------------------------', req.params)
-
       const boardRepository = connection.getCustomRepository(BoardRepository)
 
       const board = await boardRepository.getBoardWithLists(req.params?.boardId)
