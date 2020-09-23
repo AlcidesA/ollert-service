@@ -5,6 +5,31 @@ import { BoardRepository } from 'src/repositories/BoardRepository'
 import { getConnection } from 'typeorm'
 
 export class BoardController {
+  static async get (req: Request, res: Response) {
+    try {
+      const boardId = req.params?.id
+      const repository = getConnection().getCustomRepository(BoardRepository)
+
+      const board = await repository.getBoardWithLists(boardId)
+
+      return res.status(200).send({ board })
+    } catch (error) {
+      return res.status(500).send({ error: 'Error getting  list' })
+    }
+  }
+
+  static async remove (req: Request, res: Response) {
+    try {
+      const repository = getConnection().getRepository(Board)
+
+      await repository.delete(req.params?.id)
+
+      return res.sendStatus(200)
+    } catch (error) {
+      return res.status(500).send({ error: 'Error removing board' })
+    }
+  }
+
   static async addList (req: Request, res: Response) {
     try {
       const connection = getConnection()
@@ -30,28 +55,26 @@ export class BoardController {
     }
   }
 
-  static async get (req: Request, res: Response) {
+  static async removeList (req: Request, res: Response) {
     try {
-      const boardId = req.params?.id
-      const repository = getConnection().getCustomRepository(BoardRepository)
+      const connection = getConnection()
 
-      const board = await repository.getBoardWithLists(boardId)
+      console.log('-------------------------------------------------------', req.params)
 
-      return res.status(200).send({ board })
-    } catch (error) {
-      return res.status(500).send({ error: 'Error getting  list' })
-    }
-  }
+      const boardRepository = connection.getCustomRepository(BoardRepository)
 
-  static async remove (req: Request, res: Response) {
-    try {
-      const repository = getConnection().getRepository(Board)
+      const board = await boardRepository.getBoardWithLists(req.params?.boardId)
+      if (!board) {
+        return res.status(400).send({ error: 'Board not found' })
+      }
 
-      await repository.delete(req.params?.id)
+      board.lists = board.lists.filter(board => board.id !== +req.params?.listId)
+
+      await boardRepository.save(board)
 
       return res.sendStatus(200)
     } catch (error) {
-      return res.status(500).send({ error: 'Error removing board' })
+      return res.status(500).send({ error: 'Error adding list' })
     }
   }
 }
