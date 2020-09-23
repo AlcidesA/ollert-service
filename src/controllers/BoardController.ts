@@ -1,3 +1,4 @@
+import { Board } from '@models/Board'
 import { List } from '@models/List'
 import { Request, Response } from 'express'
 import { BoardRepository } from 'src/repositories/BoardRepository'
@@ -26,6 +27,18 @@ export class BoardController {
       return res.sendStatus(201)
     } catch (error) {
       return res.status(500).send({ error: 'Error adding list' })
+    }
+  }
+
+  static async remove (req: Request, res: Response) {
+    try {
+      const repository = getConnection().getRepository(Board)
+
+      await repository.delete(req.params?.id)
+
+      return res.sendStatus(200)
+    } catch (error) {
+      return res.status(500).send({ error: 'Error removing board' })
     }
   }
 }

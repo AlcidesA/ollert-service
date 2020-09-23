@@ -1,8 +1,10 @@
 import express from 'express'
 import { BoardController } from '@controllers/BoardController'
+import { authMiddleware } from 'src/middlewares/authentication'
 
 const router = express.Router()
 
-router.post('/boards/:id/list', BoardController.addList)
+router.delete('/boards/:id', authMiddleware, BoardController.remove)
+router.post('/boards/:id/list', authMiddleware, BoardController.addList)
 
 export default router
